@@ -24,24 +24,20 @@ class Programm
         );
         $res = [];
         foreach ($iterator as $fileInfo) {
-            if ($fileInfo->getBasename() !== '.' && $fileInfo->getBasename() !== '..') {
-                if (is_dir($parent === null ? $fileInfo->getBasename() : "{$parent}/{$fileInfo->getBasename()}")) {
-                    $res[str_repeat('++', $dept) . $fileInfo->getBasename()] = $fileInfo->getBasename(
-                        ) === TextHelper::a(
-                            $fileInfo->getBasename()
-                        );
+            $filenameKey = str_repeat('++', $dept) . $fileInfo->getBasename();
+            $baseName = $fileInfo->getBasename();
+            if ($baseName !== '.' && $baseName !== '..') {
+                if (is_dir($parent === null ? $fileInfo->getBasename() : "{$parent}/{$baseName}")) {
+                    $res[$filenameKey] = $baseName === TextHelper::a($baseName);
                     $res = array_merge(
                         $res,
                         $this->b(
-                            $parent === null ? $fileInfo->getBasename() : "{$parent}/{$fileInfo->getBasename()}",
+                            $parent === null ? $baseName : "{$parent}/{$baseName}",
                             $dept + 1
                         )
                     );
                 } else {
-                    $res[str_repeat('++', $dept) . $fileInfo->getBasename()] = $fileInfo->getBasename(
-                        ) === TextHelper::a(
-                            $fileInfo->getBasename()
-                        );
+                    $res[$filenameKey] = $baseName === TextHelper::a($baseName);
                 }
             }
         }
